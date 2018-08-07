@@ -8,10 +8,12 @@ def make_sb_sample_set(n):
 	sb_sample_set = set()
 	for i in range(n/2):
 		for j in range(n/2):
-			sb_sample_set.add((i,j))
+			if i != j:
+				sb_sample_set.add((i,j))
 	for i in range(n/2,n):
 		for j in range(n/2,n):
-			sb_sample_set.add((i,j))
+			if i !=j:
+				sb_sample_set.add((i,j))
 	
 	return sb_sample_set
 			
@@ -39,11 +41,13 @@ def make_frustrated(graph,n,frustration_limit):
 		
 		graph[i][j],graph[k][l] = graph[k][l],graph[i][j]
 		
-		sb_sample_set.difference({(i,j)})
-		f_sample_set.difference({(k,l)})
+		#sb_sample_set.remove((i,j))
+		#f_sample_set.remove((k,l))
+		print sb_sample_set
+		print f_sample_set
 		
 		curr_triangle_idx = calc_triangle_idx(graph,n)
-		
+	return curr_triangle_idx	
 
 ###############################################################################
 if __name__ == "__main__":
@@ -70,7 +74,7 @@ if __name__ == "__main__":
 				neighbors.append(0)
 		graph.append(neighbors)
 
-	expected_frustration = 0.5
-	make_frustrated(graph,n,expected_frustration)
+	expected_frustration = 0.1
+	triangle_idx = make_frustrated(graph,n,expected_frustration)
 	print(graph)
-	print(calc_triangle_idx(graph,n))
+	print(triangle_idx)

@@ -1,5 +1,5 @@
 """
-This code computs the triangle index of a signed directed graph.
+This Module computes the triangle index of a signed directed graph.
 """
 
 import copy
@@ -75,7 +75,9 @@ def calc_triangle_idx(graph,n):
 				elif acyclic_triad_val != 0:
 					triads.add(((i,j),(j,k),(i,k)))
 				
-	num_triads = len(triads)				
+	print num_frustrated_triads
+	num_triads = len(triads)
+	print num_triads				
 	if num_triads != 0:				
 		triangle_idx = float(num_frustrated_triads)/float(num_triads)	
 		return triangle_idx
@@ -108,4 +110,6 @@ if __name__ == "__main__":
 		graph.append(neighbors)
 
 	print(calc_triangle_idx(graph,n))
+	print(graph)
+	
 				
