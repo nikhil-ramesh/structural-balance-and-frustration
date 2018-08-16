@@ -122,15 +122,20 @@ if __name__ == "__main__":
 				neighbors.append(0)
 		graph.append(neighbors)
 		
+	
+	param_list = [1,1,1,1,4]
+	state_idx = 0
+	m = len(param_list)
+	for param_idx in range(m):
+		param_list = [1,1,1,1,4]
+		if param_idx != 4:	
+			param_list[param_idx] = 0.2
+		else:
+			param_list[param_idx] = 0.8
+	
+	
+		fig,plot_name = plot_stable_attractors(graph,n,param_list,param_idx,state_idx)
+		plot_name = 'f_full_' + plot_name
+		fig.savefig(plot_name)
 		
-	a = 0.5
-	b = 1
-	theta = 1
-	k = 1
-	n_exp = 4
-	param_list = [a,b,theta,k,n_exp]
-	param_idx = 0
-	state_idx = 0  
-	fig,plot_name = plot_time_series(graph,n,param_list,param_idx,state_idx)
-	plot_name = 'f_' + plot_name
-	fig.savefig(plot_name)
+		

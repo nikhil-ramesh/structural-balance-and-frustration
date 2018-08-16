@@ -30,7 +30,7 @@ def make_f_sample_set(n):
 	return f_sample_set
 	
 ###############################################################################
-def make_frustrated(graph,n,frustration_limit):
+def make_frustrated_by_swapping(graph,n,frustration_limit):
 	curr_triangle_idx = calc_triangle_idx(graph,n)
 	sb_sample_set = make_sb_sample_set(n)
 	f_sample_set = make_f_sample_set(n)
@@ -48,7 +48,34 @@ def make_frustrated(graph,n,frustration_limit):
 		
 		curr_triangle_idx = calc_triangle_idx(graph,n)
 	return curr_triangle_idx	
+###############################################################################
+def get_edge_list(graph,n):
+	edge_list = []
+	
+	for i in range(n):
+		for j in range(n):
+			if graph[i][j]!=0:
+				edge_list.append((i,j))
+				
+	return edge_list
 
+###############################################################################
+def gen_frustration_by_edge(graph,n,frustration_limit):
+	curr_triangle_idx = calc_triangle_idx(graph,n)
+	edge_list = get_edge_list(graph,n)
+	prev_triangle_idx = curr_triangle_idx
+	idx = 0
+	while curr_triangle_idx < frustration_limit:
+		(i,j) = edge_list[idx]
+		idx += 1
+		
+		graph[i][j] = (-1)*graph[i][j]
+		
+		curr_triangle_idx = calc_triangle_idx(graph,n)
+		if prev_triangle_idx < curr_triangle_idx:
+			yield curr_triangle_idx
+			prev_triangle_idx = curr_triangle_idx
+			
 ###############################################################################
 if __name__ == "__main__":
 	
@@ -74,7 +101,13 @@ if __name__ == "__main__":
 				neighbors.append(0)
 		graph.append(neighbors)
 
-	expected_frustration = 0.1
-	triangle_idx = make_frustrated(graph,n,expected_frustration)
+	expected_frustration = 0.8
+	triangle_idx_list = []
+	for triangle_idx in gen_frustration_by_edge(graph,n,expected_frustration):
+		print(graph)
+		triangle_idx_list.append(triangle_idx)
+		
+	
 	print(graph)
-	print(triangle_idx)
+	print(triangle_idx_list)
+
